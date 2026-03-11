@@ -1,6 +1,8 @@
 from app.models import Feature
 import hashlib
+from app import cache
 
+@cache.memoize(timeout=60) 
 def is_feature_enabled_for_user(feature_name: str, user_id: str) -> bool:
     feature = Feature.query.filter_by(name=feature_name).first()
     if not feature or not feature.is_enabled:
